@@ -1,6 +1,7 @@
-import { Box, Typography, Table, TableHead, TableRow, TableCell, TableBody, styled } from '@mui/material';
+import { Box, Typography, Table, TableHead, TableRow, TableCell, TableBody, styled, Button } from '@mui/material';
+import { useState } from 'react';
 
-const Component=styled(Box)`
+const Component = styled(Box)`
     width:80%;
     margin: 50px auto;
     & > h4{
@@ -17,14 +18,27 @@ const Component=styled(Box)`
     & > div > table > tbody > tr > td{
         font-size: 20px;
     }
-
 `
 
+const defaultObj=[{
+    id: 101,
+    name: 'Deepak',
+    email: 'deepak@gmail.com',
+    phone: 1234567890,
+    salary: 2000,
+    age: 22,
+}]
 
+const Users = () => {
 
-const Users=()=>{
+    const [users, setUsers] = useState(defaultObj);
 
-    return(
+    const removeEntry=(id)=>{
+        const updatedUsers=  users.filter(user=>user.id !==id);
+        setUsers(updatedUsers);
+    }
+
+    return (
         <Component>
             <Typography variant="h4" color="initial">My Custom Table</Typography>
             <Box>
@@ -41,15 +55,19 @@ const Users=()=>{
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell>101</TableCell>
-                            <TableCell>Deepak</TableCell>
-                            <TableCell>deepak@gmail.com</TableCell>
-                            <TableCell>7414</TableCell>
-                            <TableCell>2000</TableCell>
-                            <TableCell>23</TableCell>
-                            <TableCell>Remove</TableCell>
-                        </TableRow>
+                        {
+                            users.map(user => (
+                                <TableRow key={user.id}>
+                                    <TableCell>{user.id}</TableCell>
+                                    <TableCell>{user.name}</TableCell>
+                                    <TableCell>{user.email}</TableCell>
+                                    <TableCell>{user.phone}</TableCell>
+                                    <TableCell>{user.salary}</TableCell>
+                                    <TableCell>{user.age}</TableCell>
+                                    <TableCell><Button variant="contained" color="error" onClick={()=>removeEntry(user.id)} >Remove</Button></TableCell>
+                                </TableRow>
+                            ))
+                        }
                     </TableBody>
                 </Table>
             </Box>
